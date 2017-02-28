@@ -14,13 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-
 syntax = "proto3";
 
 option go_package = "github.com/hyperledger/fabric/protos/common";
 
 package hfc.protos.common;
-
 
 // msp_principal.proto contains proto messages defining the generalized
 // MSP notion of identity called an MSPPrincipal.  It is used as part of
@@ -47,17 +45,21 @@ package hfc.protos.common;
 //          identity/certificate; this would mean that the Principal bytes
 //          message
 message MSPPrincipal {
-
     enum Classification {
-        ROLE = 0;  // Represents the one of the dedicated MSP roles, the
+        // Represents the one of the dedicated MSP roles, the
         // one of a member of MSP network, and the one of an
         // administrator of an MSP network
-        ORGANIZATION_UNIT = 1; // Denotes a finer grained (affiliation-based)
+        ROLE = 0;
+
+        // Denotes a finer grained (affiliation-based)
         // groupping of entities, per MSP affiliation
         // E.g., this can well be represented by an MSP's
         // Organization unit
-        IDENTITY  = 2;    // Denotes a principal that consists of a single
+        ORGANIZATION_UNIT = 1;
+
+        // Denotes a principal that consists of a single
         // identity
+        IDENTITY  = 2;
     }
 
     // Classification describes the way that one should process
@@ -77,12 +79,10 @@ message MSPPrincipal {
     bytes principal = 2;
 }
 
-
 // OrganizationUnit governs the organization of the Principal
 // field of a policy principal when a specific organization unity members
 // are to be defined within a policy principal.
 message OrganizationUnit {
-
     // MSPIdentifier represents the identifier of the MSP this organization unit
     // refers to
     string msp_identifier = 1;
@@ -90,29 +90,25 @@ message OrganizationUnit {
     // OrganizationUnitIdentifier defines the organization unit under the
     // MSP identified with MSPIdentifier
     string organizational_unit_identifier = 2;
-
 }
 
 // MSPRole governs the organization of the Principal
 // field of an MSPPrincipal when it aims to define one of the
 // two dedicated roles within an MSP: Admin and Members.
 message MSPRole {
-
     // MSPIdentifier represents the identifier of the MSP this principal
     // refers to
     string msp_identifier = 1;
 
     enum MSPRoleType {
         MEMBER = 0; // Represents an MSP Member
-        ADMIN  = 1; // Represents an MSP Admin
+        ADMIN = 1;  // Represents an MSP Admin
     }
 
     // MSPRoleType defines which of the available, pre-defined MSP-roles
     // an identiy should posess inside the MSP with identifier MSPidentifier
     MSPRoleType Role = 2;
-
 }
-
 
 // TODO: Bring msp.SerializedIdentity from fabric/msp/identities.proto here. Reason below.
 // SerializedIdentity represents an serialized version of an identity;

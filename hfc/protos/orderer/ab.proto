@@ -26,7 +26,7 @@ message BroadcastResponse {
     common.Status status = 1;
 }
 
-message SeekNewest { } 
+message SeekNewest { }
 
 message SeekOldest { }
 

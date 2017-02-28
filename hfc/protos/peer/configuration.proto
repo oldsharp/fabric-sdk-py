@@ -28,7 +28,6 @@ message AnchorPeers {
 // AnchorPeer message structure which provides information about anchor peer, it includes host name,
 // port number and peer certificate.
 message AnchorPeer {
-
     // DNS host name of the anchor peer
     string host = 1;
 

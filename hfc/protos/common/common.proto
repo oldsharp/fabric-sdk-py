@@ -54,7 +54,7 @@ enum BlockMetadataIndex {
 
 // LastConfig is the encoded value for the Metadata message which is encoded in the LAST_CONFIGURATION block metadata index
 message LastConfig {
-	uint64 index  = 1;
+    uint64 index  = 1;
 }
 
 // Metadata is a common structure to be used to encode block metadata
@@ -65,7 +65,7 @@ message Metadata {
 
 message MetadataSignature {
     bytes signature_header = 1; // An encoded SignatureHeader
-    bytes signature = 2;       // The signature over the concatenation of the Metadata value bytes, signatureHeader, and block header
+    bytes signature = 2;        // The signature over the concatenation of the Metadata value bytes, signatureHeader, and block header
 }
 
 message Header {
@@ -75,7 +75,8 @@ message Header {
 
 // Header is a generic replay prevention and identity message to include in a signed payload
 message ChannelHeader {
-    int32 type = 1; // Header types 0-10000 are reserved and defined by HeaderType
+    // Header types 0-10000 are reserved and defined by HeaderType
+    int32 type = 1;
 
     // Version indicates message protocol version
     int32 version = 2;
@@ -118,7 +119,6 @@ message SignatureHeader {
 
 // Payload is the message contents (and header to allow for signing)
 message Payload {
-
     // Header is included to provide identity and prevent replay
     Header header = 1;
 

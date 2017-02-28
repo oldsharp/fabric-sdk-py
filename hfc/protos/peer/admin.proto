@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-		 http://www.apache.org/licenses/LICENSE-2.0
+                 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,7 +33,6 @@ service Admin {
 }
 
 message ServerStatus {
-
     enum StatusCode {
         UNDEFINED = 0;
         STARTED = 1;
@@ -44,14 +43,14 @@ message ServerStatus {
     }
 
     StatusCode status = 1;
-
 }
+
 message LogLevelRequest {
-	string log_module = 1;
-	string log_level = 2;
+    string log_module = 1;
+    string log_level = 2;
 }
 
 message LogLevelResponse {
-	string log_module = 1;
-	string log_level = 2;
+    string log_module = 1;
+    string log_level = 2;
 }

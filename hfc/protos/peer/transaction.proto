@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-		 http://www.apache.org/licenses/LICENSE-2.0
+                 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,15 +28,14 @@ import "hfc/protos/common/common.proto";
 // (in the signature field) over the bytes of the transaction (in the
 // transactionBytes field).
 message SignedTransaction {
+    // The bytes of the Transaction. NDD
+    bytes transaction_bytes = 1;
 
-	// The bytes of the Transaction. NDD
-	bytes transaction_bytes = 1;
-
-	// Signature of the transactionBytes The public key of the signature is in
-	// the header field of TransactionAction There might be multiple
-	// TransactionAction, so multiple headers, but there should be same
-	// transactor identity (cert) in all headers
-	bytes signature = 2;
+    // Signature of the transactionBytes The public key of the signature is in
+    // the header field of TransactionAction There might be multiple
+    // TransactionAction, so multiple headers, but there should be same
+    // transactor identity (cert) in all headers
+    bytes signature = 2;
 }
 
 // ProcessedTransaction wraps an Envelope that includes a transaction along with an indication
@@ -66,29 +65,27 @@ message ProcessedTransaction {
 // independent proposals (and their action) might be included in a transaction
 // to ensure that they are treated atomically.
 message Transaction {
+    // Version indicates message protocol version.
+    int32 version = 1;
 
-	// Version indicates message protocol version.
-	int32 version = 1;
+    // Timestamp is the local time that the
+    // message was created by the sender
+    google.protobuf.Timestamp timestamp = 2;
 
-	// Timestamp is the local time that the
-	// message was created by the sender
-	google.protobuf.Timestamp timestamp = 2;
-
-	// The payload is an array of TransactionAction. An array is necessary to
-	// accommodate multiple actions per transaction
-	repeated TransactionAction actions = 3;
+    // The payload is an array of TransactionAction. An array is necessary to
+    // accommodate multiple actions per transaction
+    repeated TransactionAction actions = 3;
 }
 
 // TransactionAction binds a proposal to its action.  The type field in the
 // header dictates the type of action to be applied to the ledger.
 message TransactionAction {
+    // The header of the proposal action, which is the proposal header
+    bytes header = 1;
 
-	// The header of the proposal action, which is the proposal header
-	bytes header = 1;
-
-	// The payload of the action as defined by the type in the header For
-	// chaincode, it's the bytes of ChaincodeActionPayload
-	bytes payload = 2;
+    // The payload of the action as defined by the type in the header For
+    // chaincode, it's the bytes of ChaincodeActionPayload
+    bytes payload = 2;
 }
 
 //---------- Chaincode Transaction ------------
@@ -97,32 +94,30 @@ message TransactionAction {
 // payload when the Header's type is set to CHAINCODE.  It carries the
 // chaincodeProposalPayload and an endorsed action to apply to the ledger.
 message ChaincodeActionPayload {
+    // This field contains the bytes of the ChaincodeProposalPayload message from
+    // the original invocation (essentially the arguments) after the application
+    // of the visibility function. The main visibility modes are "full" (the
+    // entire ChaincodeProposalPayload message is included here), "hash" (only
+    // the hash of the ChaincodeProposalPayload message is included) or
+    // "nothing".  This field will be used to check the consistency of
+    // ProposalResponsePayload.proposalHash.  For the CHAINCODE type,
+    // ProposalResponsePayload.proposalHash is supposed to be H(ProposalHeader ||
+    // f(ChaincodeProposalPayload)) where f is the visibility function.
+    bytes chaincode_proposal_payload = 1;
 
-	// This field contains the bytes of the ChaincodeProposalPayload message from
-	// the original invocation (essentially the arguments) after the application
-	// of the visibility function. The main visibility modes are "full" (the
-	// entire ChaincodeProposalPayload message is included here), "hash" (only
-	// the hash of the ChaincodeProposalPayload message is included) or
-	// "nothing".  This field will be used to check the consistency of
-	// ProposalResponsePayload.proposalHash.  For the CHAINCODE type,
-	// ProposalResponsePayload.proposalHash is supposed to be H(ProposalHeader ||
-	// f(ChaincodeProposalPayload)) where f is the visibility function.
-	bytes chaincode_proposal_payload = 1;
-
-	// The list of actions to apply to the ledger
-	ChaincodeEndorsedAction action = 2;
+    // The list of actions to apply to the ledger
+    ChaincodeEndorsedAction action = 2;
 }
 
 // ChaincodeEndorsedAction carries information about the endorsement of a
 // specific proposal
 message ChaincodeEndorsedAction {
+    // This is the bytes of the ProposalResponsePayload message signed by the
+    // endorsers.  Recall that for the CHAINCODE type, the
+    // ProposalResponsePayload's extenstion field carries a ChaincodeAction
+    bytes proposal_response_payload = 1;
 
-	// This is the bytes of the ProposalResponsePayload message signed by the
-	// endorsers.  Recall that for the CHAINCODE type, the
-	// ProposalResponsePayload's extenstion field carries a ChaincodeAction
-	bytes proposal_response_payload = 1;
-
-	// The endorsement of the proposal, basically the endorser's signature over
-	// proposalResponsePayload
-	repeated Endorsement endorsements = 2;
+    // The endorsement of the proposal, basically the endorser's signature over
+    // proposalResponsePayload
+    repeated Endorsement endorsements = 2;
 }
